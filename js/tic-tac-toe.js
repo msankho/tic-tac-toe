@@ -109,7 +109,7 @@ Board.prototype.is_there_a_winner = function(current_box, box_class){
 
 // Function to set the screen to start, board or win
 
-function screen(type, winner='screen-win-tie') {
+function screen(type, winner='screen-win-tie', message) {
 	html_content = {
 		start:  `<div class="screen screen-start" id="start">
 			  		<header>
@@ -142,7 +142,7 @@ function screen(type, winner='screen-win-tie') {
 		win: `<div class="screen screen-win ${winner}" id="finish">
 				  <header>
 				    <h1>Tic Tac Toe</h1>
-				    <p class="message"></p>
+				    <p class="message">${message}</p>
 				    <a href="#" class="button">New game</a>
 				  </header>
 				</div>`
@@ -200,17 +200,19 @@ function end_game(result){
 
 	// check the result after the game has ended and set the win screen accordingly. 
 
+	let message = '';
 	if(result == 'yes') {
 		winner_class = board.active_player == 1 ? 'screen-win-one' : 'screen-win-two';
-
+		message = 'Winner'
 	} else {
 		winner_class = 'screen-win-tie';
+		message = "It's a draw";
 	}
 
-	screen('win', winner_class);
+	screen('win', winner_class, message);
 
 	// If the new game button is clicked start a new game.
-	
+
 	$new_game = $('#finish .button');
 	screentype = 'win';
 	$new_game.click(()=>{
